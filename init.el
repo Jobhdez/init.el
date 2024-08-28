@@ -1,0 +1,66 @@
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
+;; and `package-pinned-packages`. Most users will not need or want to do this.
+;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(package-initialize)
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(use-package haskell-mode
+  :ensure t)
+
+(use-package typescript-mode
+  :ensure t)
+
+(use-package company
+  :ensure t)
+(defun my/install-treesit-grammars ()
+  (unless (treesit-language-available-p 'typescript)
+    (treesit-install-language-grammar 'typescript))
+  (unless (treesit-language-available-p 'tsx)
+    (treesit-install-language-grammar 'tsx)))
+
+;;(my/install-treesit-grammars)
+
+(add-hook 'after-init-hook 'global-company-mode)
+
+(load-theme 'manoj-dark t)
+(global-display-line-numbers-mode)
+
+;; Optional: Hook to run prettier on save (if you use Prettier)
+(use-package prettier-js
+   :ensure t)
+;(add-hook 'typescript-ts-mode-hook 'prettier-js-mode)
+(add-hook 'typescript-ts-mode-hook
+          (lambda ()
+            (prettier-js-mode)
+            (add-hook 'before-save-hook 'prettier-js nil 'local)))
+
+(use-package eglot
+  :ensure t)
+(add-hook 'typescript-ts-mode-hook 'eglot-ensure)
+
+(use-package web-mode
+  :ensure t
+  :mode ("\\.js\\'" "\\.jsx\\'" "\\.ts\\'" "\\.tsx\\'")
+  :config
+  ;; Configure indentation for JSX/TSX
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+  (setq web-mode-css-indent-offset 2))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(company company-mode web-mode typescript-mode prettier-js nvm iter2 haskell-mode editorconfig)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
