@@ -26,23 +26,15 @@
 ;;(my/install-treesit-grammars)
 
 (add-hook 'after-init-hook 'global-company-mode)
-
 (load-theme 'manoj-dark t)
 (global-display-line-numbers-mode)
 
 ;; Optional: Hook to run prettier on save (if you use Prettier)
-(use-package prettier-js
-   :ensure t)
-;(add-hook 'typescript-ts-mode-hook 'prettier-js-mode)
-(add-hook 'typescript-ts-mode-hook
-          (lambda ()
-            (prettier-js-mode)
-            (add-hook 'before-save-hook 'prettier-js nil 'local)))
+
 
 (use-package eglot
   :ensure t)
 (add-hook 'typescript-ts-mode-hook 'eglot-ensure)
-
 (use-package web-mode
   :ensure t
   :mode ("\\.js\\'" "\\.jsx\\'" "\\.ts\\'" "\\.tsx\\'")
@@ -51,16 +43,9 @@
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-code-indent-offset 2)
   (setq web-mode-css-indent-offset 2))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(company company-mode web-mode typescript-mode prettier-js nvm iter2 haskell-mode editorconfig)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
+
+(use-package prettier
+  :ensure t)
+
+(add-hook 'after-init-hook #'global-prettier-mode)
