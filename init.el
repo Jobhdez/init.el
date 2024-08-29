@@ -17,6 +17,7 @@
 
 (use-package company
   :ensure t)
+
 (defun my/install-treesit-grammars ()
   (unless (treesit-language-available-p 'typescript)
     (treesit-install-language-grammar 'typescript))
@@ -28,9 +29,6 @@
 (add-hook 'after-init-hook 'global-company-mode)
 (load-theme 'manoj-dark t)
 (global-display-line-numbers-mode)
-
-;; Optional: Hook to run prettier on save (if you use Prettier)
-
 
 (use-package eglot
   :ensure t)
