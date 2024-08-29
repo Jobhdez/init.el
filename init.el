@@ -17,7 +17,6 @@
 
 (use-package company
   :ensure t)
-
 (defun my/install-treesit-grammars ()
   (unless (treesit-language-available-p 'typescript)
     (treesit-install-language-grammar 'typescript))
@@ -29,6 +28,9 @@
 (add-hook 'after-init-hook 'global-company-mode)
 (load-theme 'manoj-dark t)
 (global-display-line-numbers-mode)
+
+;; Optional: Hook to run prettier on save (if you use Prettier)
+
 
 (use-package eglot
   :ensure t)
@@ -43,7 +45,9 @@
   (setq web-mode-css-indent-offset 2))
 
 
+;; note: for prettier, you need prettier installed. install it with npm
+;; and then in your ui directory you need a `.prettierrc` file with this
+;; with parser: typescript
 (use-package prettier
   :ensure t)
-
 (add-hook 'after-init-hook #'global-prettier-mode)
