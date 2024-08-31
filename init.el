@@ -16,7 +16,10 @@
   :ensure t)
 
 (use-package company
-  :ensure t)
+  :ensure t
+  :after lsp-mode
+  :hook (lsp-mode . company-mode))
+
 (defun my/install-treesit-grammars ()
   (unless (treesit-language-available-p 'typescript)
     (treesit-install-language-grammar 'typescript))
@@ -51,3 +54,29 @@
 (use-package prettier
   :ensure t)
 (add-hook 'after-init-hook #'global-prettier-mode)
+
+(use-package lsp-mode
+  :ensure t
+  :after company lsp-ui)
+
+(use-package lsp-ui
+  :ensure t)
+
+(use-package lsp-haskell
+  :ensure t)
+
+(add-hook 'haskell-mode-hook #'lsp)
+(add-hook 'haskell-literate-mode-hook #'lsp)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(company web-mode typescript-mode prettier lsp-ui lsp-haskell)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
